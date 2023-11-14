@@ -1,0 +1,7 @@
+﻿.linkCatalog .scroll__container__box {
+    width: 230px;
+}
+
+.linkCatalog .scroll__container__box figure a {
+    cursor: pointer;
+}

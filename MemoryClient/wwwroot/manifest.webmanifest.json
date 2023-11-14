@@ -1,22 +1,22 @@
 {
-  "name": "MemoryClient",
-  "short_name": "MemoryClient",
   "id": "./",
+  "name": "EyE",
+  "short_name": "EyE",
   "start_url": "./",
   "display": "standalone",
-  "background_color": "#ffffff",
   "theme_color": "#03173d",
+  "background_color": "#ffffff",
   "prefer_related_applications": false,
   "icons": [
     {
-      "src": "icon-512.png",
+      "src": "eye-32.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "32x32"
     },
     {
-      "src": "icon-192.png",
+      "src": "eye-512.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "512x512"
     }
   ]
 }
