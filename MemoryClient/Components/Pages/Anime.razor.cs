@@ -2,7 +2,7 @@
 using MemoryLib.Models.Review;
 using MemoryClient.Enums;
 using System.ComponentModel.DataAnnotations;
-namespace MemoryClient.Pages;
+namespace MemoryClient.Components.Pages;
 
 [Route("Anime/{StrFolderName}")]
 public partial class Anime

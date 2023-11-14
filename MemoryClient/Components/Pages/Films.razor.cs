@@ -1,4 +1,4 @@
-﻿namespace MemoryClient.Pages;
+﻿namespace MemoryClient.Components.Pages;
 
 [Route("Films/{StrFolderName}")]
 public partial class Films

@@ -1,4 +1,4 @@
-﻿namespace MemoryClient.Pages;
+﻿namespace MemoryClient.Components.Pages;
 
 [Route("Music/{StrFolderName}")]
 public partial class Music

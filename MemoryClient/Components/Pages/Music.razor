@@ -1,10 +1,9 @@
-﻿@using MemoryLib.Models.Review
-@inherits IMDbReviews<SerialModel>
+﻿@inherits Reviews<MusicModel>
 
-<div class="serials scroll">
-    <OneLineAdder Header=@($"<a href='{IMDbHelper.BASE_PATH}' target='_blank'>{Header}</a>")
+<div class="music scroll">
+    <OneLineAdder Header=@($"<a href='{DiscogsHelper.BASE_PATH}' target='_blank'>{Header}</a>")
                   Model="ItemAdderViewModel"
-                  Placeholder="Введите ссылку IMDb"
+                  Placeholder="Введите ссылку Discogs"
                   Create="AddItemIfNotExistAsync" />
 
     <div class="scroll__panel">
@@ -39,31 +38,32 @@
             <div class="scroll__container__box">
                     <figure>
                         <figcaption><h3><a href="@item.Link" target="_blank">@item.Name</a></h3></figcaption>
-                        <img src="@(IMDbHelper.IMAGE_REQUEST_PATTERN + item.ImageSource)" alt="Изображение" onerror="this.style='height:250px;'">
+                        <img src="@item.ImageSource" alt="Изображение" onerror="this.style='height:150px;'">
                     </figure>
 
                     <dl>
-                        <dt>Год выхода</dt>
-                        <dd>@item.StartingDate.ToShortDateString()</dd>
-                        <dt>Продолжительность</dt>
-                        <dd>@item.Runtime мин</dd>
-                        <dt>Количество сезонов</dt>
-                        <dd>@item.TotalSeasons</dd>
-                        <dt>IMDb рейтинг</dt>
-                        <dd>@item.IMDbRating</dd>
-                        <dt>IMDb голосов</dt>
-                        <dd>@item.IMDbVotes</dd>
+                        <dt>Год начала</dt>
+                        <dd>@item.StartingDate.Year</dd>
+                        <dt>Сайты</dt>
+                        <input type="checkbox" id="showSites@(itemNumber)" />
+                        <label label for="showSites@(itemNumber)">п/с</label>
+                        <dd class="grid">
+                            @foreach (var link in JsonDocument.Parse(item.Sites).RootElement.EnumerateArray())
+                        {
+                            <a href="@link.ToString()" target="_blank">@LinkHelper.GetDomain(link.ToString())</a>
+                        }
+                        </dd>
+                        <dt>Плейлист</dt>
+                        <input type="checkbox" id="youtubePlaylist@(itemNumber)" />
+                        <label label for="youtubePlaylist@(itemNumber)">п/с</label>
+                        <dd><a href="@item.YoutubePlaylist" target="_blank">слушать</a></dd>
                         <dt>Комментарий</dt>
                         <input type="checkbox" id="showComment@(itemNumber)" />
                         <label label for="showComment@(itemNumber)">п/с</label>
                         <dd>@item.Comment</dd>
-                        <dt>Страна</dt>
-                        <dd>@item.Country</dd>
-                        <dt>Жанр</dt>
-                        <dd>@item.Genre</dd>
                         <dt>Описание</dt>
                         <input type="checkbox" id="showDescription@(itemNumber)" />
-                        <label for="showDescription@(itemNumber)">п/с</label>
+                        <label label for="showDescription@(itemNumber)">п/с</label>
                         <dd>@item.Information</dd>
                     </dl>
 
@@ -71,7 +71,6 @@
                                  ItemId="item.Id"
                                  ItemNumber="itemNumber"
                                  ShowItemEditor="ShowItemEditor"
-                                 UpdateItem="async i => await UpdateItemAsync((SerialModel)i)"
                                  DeleteItem="DeleteItemAsync" />
                 </div>
 
@@ -88,26 +87,9 @@
             <p>
                 <label for="scroll__itemEditor__folder">Папка: </label>
                 <select id="scroll__itemEditor__folder" @bind="ItemEditorModel.FolderName" @bind:event="onchange">
-                    @if (FolderName == FolderNames.SerialsWatched)
-                {
-                    <option value="@FolderNames.SerialsWatched">@(FolderNames.SerialsWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.SerialsWillWatch">@(FolderNames.SerialsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
-                }
-                else if (FolderName == FolderNames.CartoonSeriesWatched)
-                {
-                    <option value="@FolderNames.CartoonSeriesWatched">@(FolderNames.CartoonSeriesWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.SerialsWillWatch">@(FolderNames.SerialsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
-                }
-                else if (FolderName == FolderNames.SerialsWillWatch)
-                {
-                    <option value="@FolderNames.SerialsWillWatch">@(FolderNames.SerialsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.SerialsWatched">@(FolderNames.SerialsWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.CartoonSeriesWatched">@(FolderNames.CartoonSeriesWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                }
-                else if (FolderName == FolderNames.CartoonSeriesMyChildhood)
-                {
-                    <option value="@FolderNames.CartoonSeriesMyChildhood">@(FolderNames.CartoonSeriesMyChildhood.GetAttribute<DisplayAttribute>().Name)</option>
-                }
+                    <option value="@FolderNames.RussianMusicListened">@(FolderNames.RussianMusicListened.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.ForeignMusicListened">@(FolderNames.ForeignMusicListened.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.MusicWillListen">@(FolderNames.MusicWillListen.GetAttribute<DisplayAttribute>().Name)</option>
                 </select>
             </p>
             <p>

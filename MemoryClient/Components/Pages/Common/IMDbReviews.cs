@@ -2,7 +2,8 @@
 using MemoryLib.Models.Common;
 using MemoryClient.Enums;
 using System.ComponentModel.DataAnnotations;
-namespace MemoryClient.Pages.Common;
+
+namespace MemoryClient.Components.Pages.Common;
 
 public class IMDbReviews<T> : Reviews<T> where T : IMDbModel, new()
 {

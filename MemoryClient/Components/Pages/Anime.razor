@@ -1,10 +1,9 @@
-﻿@using MemoryLib.Models.Review
-@inherits IMDbReviews<GameModel>
+﻿@inherits Reviews<AnimeModel>
 
-<div class="games scroll">
-    <OneLineAdder Header=@($"<a href='{IMDbHelper.BASE_PATH}' target='_blank'>{Header}</a>")
+<div class="anime scroll">
+    <OneLineAdder Header=@($"<a href='{AniDbHelper.BASE_PATH}' target='_blank'>{Header}</a>")
                   Model="ItemAdderViewModel"
-                  Placeholder="Введите ссылку IMDb"
+                  Placeholder="Введите ссылку AniDb"
                   Create="AddItemIfNotExistAsync" />
 
     <div class="scroll__panel">
@@ -39,28 +38,24 @@
             <div class="scroll__container__box">
                     <figure>
                         <figcaption><h3><a href="@item.Link" target="_blank">@item.Name</a></h3></figcaption>
-                        <img src="@(IMDbHelper.IMAGE_REQUEST_PATTERN + item.ImageSource)" alt="Изображение" onerror="this.style='height:250px;'">
-                        @*TODO: когда добавляеться в начало новый элемент, на мгновение, происходит дублирование картинки*@
-                        @*Не получилось исправить(многое перепробывал)*@
-                        @*<img id=@($"filmImg{item.Id}") src='/999-200x300.png' alt="Изображение" @onload='() => { JSRuntime.InvokeVoidAsync($"filmImg{item.Id}.setAttribute", "src", item.ImageSource); }'>*@
-                        @*<img src="@item.ImageSource" alt="Изображение" decoding="sync" importance="high" loading="eager">*@
+                        <img src="@(AniDbHelper.IMAGE_REQUEST_PATTERN + item.ImageSource)" alt="Изображение" onerror="this.style='height:250px;'">
                     </figure>
 
                     <dl>
                         <dt>Год выхода</dt>
                         <dd>@item.StartingDate.ToShortDateString()</dd>
-                        <dt>IMDb рейтинг</dt>
-                        <dd>@item.IMDbRating</dd>
-                        <dt>IMDb голосов</dt>
-                        <dd>@item.IMDbVotes</dd>
+                        <dt>Количество серий</dt>
+                        <dd>@item.Episodecount</dd>
+                        <dt>AniDb рейтинг</dt>
+                        <dd>@item.AniDbRating</dd>
+                        <dt>AniDb голосов</dt>
+                        <dd>@item.AniDbVotes</dd>
+                        <dt>Мой рейтинг</dt>
+                        <dd>@item.MyRating</dd>
                         <dt>Комментарий</dt>
                         <input type="checkbox" id="showComment@(itemNumber)" />
                         <label label for="showComment@(itemNumber)">п/с</label>
                         <dd>@item.Comment</dd>
-                        <dt>Страна</dt>
-                        <dd>@item.Country</dd>
-                        <dt>Жанр</dt>
-                        <dd>@item.Genre</dd>
                         <dt>Описание</dt>
                         <input type="checkbox" id="showDescription@(itemNumber)" />
                         <label label for="showDescription@(itemNumber)">п/с</label>
@@ -71,7 +66,6 @@
                                  ItemId="item.Id"
                                  ItemNumber="itemNumber"
                                  ShowItemEditor="ShowItemEditor"
-                                 UpdateItem="async i => await UpdateItemAsync((GameModel)i)"
                                  DeleteItem="DeleteItemAsync" />
                 </div>
 
@@ -86,8 +80,19 @@
         <EditForm class="scroll__itemEditor" Model="ItemEditorModel" OnValidSubmit="UpdateItemAsync">
             <h4>Редактировать</h4>
             <p>
+                <label for="scroll__itemEditor__folder">Папка: </label>
+                <select id="scroll__itemEditor__folder" @bind="ItemEditorModel.FolderName" @bind:event="onchange">
+                    <option value="@FolderNames.AnimeWatched">@(FolderNames.AnimeWatched.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.AnimeWillWatch">@(FolderNames.AnimeWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
+                </select>
+            </p>
+            <p>
+                <label for="scroll__itemEditor__rating">Мой рейтинг: </label>
+                <input type="number" id="scroll__itemEditor__rating" @bind-value="ItemEditorModel.MyRating">
+            </p>
+            <p>
                 <label for="scroll__itemEditor__comment">Комментарий: </label>
-                <textarea type="text" id="scroll__itemEditor__comment" @bind="ItemEditorModel.Comment" />
+                <textarea type="text" id="scroll__itemEditor__comment" @bind="ItemEditorModel.Comment"></textarea>
             </p>
             <p>
                 <input type="submit" value="Сохранить">

@@ -4,7 +4,7 @@ using MemoryLib.Extensions;
 using MemoryLib.Models.Common.Interfaces;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-namespace MemoryClient.Pages.Common;
+namespace MemoryClient.Components.Pages.Common;
 
 public class Folders<T> : Scroll<T> where T : class, IDbFolderItem, new()
 {

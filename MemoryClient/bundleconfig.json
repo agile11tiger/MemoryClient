@@ -4,10 +4,8 @@
   {
     "outputFileName": "wwwroot/bundle.css",
     "inputFiles": [
-      "Pages/**/**/**/**/**/*.1.css",
-      "Shared/**/**/**/**/**/*.css",
-      "Pages/**/**/**/**/**/*.css",
-      "Components/**/**/**/**/**/*.css",
+      "Components/Pages/**/**/**/**/**/*.1.css",
+      "Components/Pages/**/**/**/**/**/*.css",
       "wwwroot/css/eyebundle.css" //last
     ],
     "minify": {
@@ -19,8 +17,7 @@
   {
     "outputFileName": "wwwroot/bundle.js",
     "inputFiles": [
-      "Components/**/**/**/**/**/*.js",
-      "Pages/**/**/**/**/**/*.js",
+      "Components/Pages/**/**/**/**/**/*.js",
       "wwwroot/js/eyebundle.js" //last
     ],
     "minify": {

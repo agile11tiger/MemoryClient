@@ -1,7 +1,6 @@
-﻿@using MemoryLib.Models.Review
-@inherits IMDbReviews<FilmModel>
+﻿@inherits IMDbReviews<SerialModel>
 
-<div class="films scroll">
+<div class="serials scroll">
     <OneLineAdder Header=@($"<a href='{IMDbHelper.BASE_PATH}' target='_blank'>{Header}</a>")
                   Model="ItemAdderViewModel"
                   Placeholder="Введите ссылку IMDb"
@@ -40,10 +39,6 @@
                     <figure>
                         <figcaption><h3><a href="@item.Link" target="_blank">@item.Name</a></h3></figcaption>
                         <img src="@(IMDbHelper.IMAGE_REQUEST_PATTERN + item.ImageSource)" alt="Изображение" onerror="this.style='height:250px;'">
-                        @*TODO: когда добавляеться в начало новый элемент, на мгновение, происходит дублирование картинки*@
-                        @*Не получилось исправить(многое перепробывал)*@
-                        @*<img id=@($"filmImg{item.Id}") src='/999-200x300.png' alt="Изображение" @onload='() => { JSRuntime.InvokeVoidAsync($"filmImg{item.Id}.setAttribute", "src", item.ImageSource); }'>*@
-                        @*<img src="@item.ImageSource" alt="Изображение" decoding="sync" importance="high" loading="eager">*@
                     </figure>
 
                     <dl>
@@ -51,6 +46,8 @@
                         <dd>@item.StartingDate.ToShortDateString()</dd>
                         <dt>Продолжительность</dt>
                         <dd>@item.Runtime мин</dd>
+                        <dt>Количество сезонов</dt>
+                        <dd>@item.TotalSeasons</dd>
                         <dt>IMDb рейтинг</dt>
                         <dd>@item.IMDbRating</dd>
                         <dt>IMDb голосов</dt>
@@ -65,7 +62,7 @@
                         <dd>@item.Genre</dd>
                         <dt>Описание</dt>
                         <input type="checkbox" id="showDescription@(itemNumber)" />
-                        <label label for="showDescription@(itemNumber)">п/с</label>
+                        <label for="showDescription@(itemNumber)">п/с</label>
                         <dd>@item.Information</dd>
                     </dl>
 
@@ -73,7 +70,7 @@
                                  ItemId="item.Id"
                                  ItemNumber="itemNumber"
                                  ShowItemEditor="ShowItemEditor"
-                                 UpdateItem="async i => await UpdateItemAsync((FilmModel)i)"
+                                 UpdateItem="async i => await UpdateItemAsync((SerialModel)i)"
                                  DeleteItem="DeleteItemAsync" />
                 </div>
 
@@ -90,28 +87,25 @@
             <p>
                 <label for="scroll__itemEditor__folder">Папка: </label>
                 <select id="scroll__itemEditor__folder" @bind="ItemEditorModel.FolderName" @bind:event="onchange">
-                    @if (FolderName == FolderNames.FilmsWatched)
+                    @if (FolderName == FolderNames.SerialsWatched)
                 {
-                    <option value="@FolderNames.FilmsWatched">@(FolderNames.FilmsWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.FilmsWillWatch">@(FolderNames.FilmsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.SerialsWatched">@(FolderNames.SerialsWatched.GetAttribute<DisplayAttribute>().Name)</option>
+                        <option value="@FolderNames.SerialsWillWatch">@(FolderNames.SerialsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
                 }
-                else if (FolderName == FolderNames.CartoonFilmsWatched)
+                else if (FolderName == FolderNames.CartoonSeriesWatched)
                 {
-                    <option value="@FolderNames.CartoonFilmsWatched">@(FolderNames.CartoonFilmsWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.FilmsWillWatch">@(FolderNames.FilmsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.CartoonSeriesWatched">@(FolderNames.CartoonSeriesWatched.GetAttribute<DisplayAttribute>().Name)</option>
+                        <option value="@FolderNames.SerialsWillWatch">@(FolderNames.SerialsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
                 }
-                else if (FolderName == FolderNames.FilmsWillWatch)
+                else if (FolderName == FolderNames.SerialsWillWatch)
                 {
-                    <option value="@FolderNames.FilmsWillWatch">@(FolderNames.FilmsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.FilmsWatched">@(FolderNames.FilmsWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.CartoonFilmsWatched">@(FolderNames.CartoonFilmsWatched.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.SerialsWillWatch">@(FolderNames.SerialsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
+                        <option value="@FolderNames.SerialsWatched">@(FolderNames.SerialsWatched.GetAttribute<DisplayAttribute>().Name)</option>
+                        <option value="@FolderNames.CartoonSeriesWatched">@(FolderNames.CartoonSeriesWatched.GetAttribute<DisplayAttribute>().Name)</option>
                 }
-                else if (FolderName == FolderNames.FilmsBreakingPsycheWatched || FolderName == FolderNames.FilmsBreakingPsycheWillWatch)
+                else if (FolderName == FolderNames.CartoonSeriesMyChildhood)
                 {
-                    <option value="@FolderNames.FilmsBreakingPsycheWatched">@(FolderNames.FilmsBreakingPsycheWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.FilmsBreakingPsycheWillWatch">@(FolderNames.FilmsBreakingPsycheWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.FilmsWatched">@(FolderNames.FilmsWatched.GetAttribute<DisplayAttribute>().Name)</option>
-                        <option value="@FolderNames.FilmsWillWatch">@(FolderNames.FilmsWillWatch.GetAttribute<DisplayAttribute>().Name)</option>
+                    <option value="@FolderNames.CartoonSeriesMyChildhood">@(FolderNames.CartoonSeriesMyChildhood.GetAttribute<DisplayAttribute>().Name)</option>
                 }
                 </select>
             </p>

@@ -1,4 +1,4 @@
-﻿namespace MemoryClient.Pages;
+﻿namespace MemoryClient.Components.Pages;
 
 [Route("VideoLinks/{StrFolderName}")]
 public partial class VideoLinks

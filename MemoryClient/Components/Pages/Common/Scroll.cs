@@ -10,7 +10,7 @@ using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
 using EyEClientLib.Components;
-namespace MemoryClient.Pages.Common;
+namespace MemoryClient.Components.Pages.Common;
 
 public class Scroll<T> : ComponentBase where T : class, IDatabaseItem, new()
 {

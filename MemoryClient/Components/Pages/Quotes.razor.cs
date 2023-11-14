@@ -1,6 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using MemoryLib.ViewModels;
-namespace MemoryClient.Pages;
+namespace MemoryClient.Components.Pages;
 
 [Route("/")]
 [Route("Quotes")]

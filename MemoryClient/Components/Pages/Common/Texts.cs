@@ -1,7 +1,7 @@
 ﻿using MemoryLib.Models.Common;
 using MemoryClient.Enums;
 using System.Collections.Generic;
-namespace MemoryClient.Pages.Common;
+namespace MemoryClient.Components.Pages.Common;
 
 public class Texts : Folders<TextModel>
 {
@@ -41,7 +41,7 @@ public class Texts : Folders<TextModel>
 
     public override void ShowItemEditor(object objItem)
     {
-        if (RefEditableItem == default || (RefEditableItem != default && !RefEditableItem.IsEditing))
+        if (RefEditableItem == default || RefEditableItem != default && !RefEditableItem.IsEditing)
         {
             base.ShowItemEditor(objItem);
             RefEditableItem.IsEditing = true;

@@ -1,4 +1,4 @@
-﻿namespace MemoryClient.Pages;
+﻿namespace MemoryClient.Components.Pages;
 
 [Route("Serials/{StrFolderName}")]
 public partial class Serials

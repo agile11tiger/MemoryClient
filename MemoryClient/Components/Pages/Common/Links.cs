@@ -3,7 +3,7 @@ using MemoryLib.Models.Common;
 using MemoryClient.Enums;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-namespace MemoryClient.Pages.Common;
+namespace MemoryClient.Components.Pages.Common;
 
 public class Links : Folders<LinkModel>
 {

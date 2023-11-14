@@ -8,15 +8,15 @@
     <NoWarn>10012</NoWarn>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="Pages\AnimeThatIWatched_Table.razor.cs" />
+    <Compile Remove="Components\Pages\AnimeThatIWatched_Table.razor.cs" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Remove="Pages\AnimeThatIWatched_Table.razor" />
+    <Content Remove="Components\Pages\AnimeThatIWatched_Table.razor" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Pages\AnimeThatIWatched_Table.css" />
+    <None Remove="Components\Pages\AnimeThatIWatched_Table.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -39,13 +39,13 @@
 
   <ItemGroup>
     <Content Update="wwwroot\appsettings.Production.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\appsettings.Development.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
     <Content Update="wwwroot\appsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
